@@ -51,10 +51,6 @@ const coin = sequelize.define("coin", {
     orderType:{
         type:Sequelize.TEXT
     },
-    change:{
-        type:Sequelize.INTEGER,
-        default:0
-    },
     price:{
         type:Sequelize.DECIMAL
     }
@@ -104,6 +100,7 @@ const recordHistory = (Name,amount,Ordertype,price) =>{
 //FUNCTION TO CHANGE THE COIN DETAILS 
 const updateDetails = async (name,orderType,price,amount)=>{
     const currentCoin = await coin.findOne({where:{name:name}});
+    var message = ' ';
     if(orderType=='buy'){
         const newAmount= parseInt(currentCoin.amount)+parseInt(amount);
         const newPrice = parseInt(currentCoin.price)+parseInt(amount)*parseInt(price);
@@ -115,8 +112,10 @@ const updateDetails = async (name,orderType,price,amount)=>{
     }
     else{
         if(amount>currentCoin.amount){
-            res.send('You don\'t hold these many coins kiddo')
+            message='You don\'t hold these many coins kiddo';
         }
+        else
+        {
         const newAmount= currentCoin.amount-amount;
         const newPrice = currentCoin.price-amount*price;
         await coin.update({amount:newAmount,price:newPrice},{
@@ -124,8 +123,10 @@ const updateDetails = async (name,orderType,price,amount)=>{
                 name:name
             }
         });
-    }
-    console.log('Updated Coin');
+        message='Updated Coin!';
+        }
+}
+return message;
 }
 
 //HTTP REQUESTS WITH THEIR RESPONSES
@@ -135,17 +136,36 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/history',async (req,res)=>{
+    var historyData = [];
     console.log("Showing history now!");
     const getHistory = await history.findAll({ raw: true });
-    console.log(getHistory);
-    res.send("Here is History!");
+    getHistory.map(coinSet=>{
+        let dataSet = {
+            id:coinSet.id,
+            name:coinSet.name,
+            amount:coinSet.amount,
+            price:coinSet.price
+        }
+        historyData.push(dataSet);
+    })
+    res.send(historyData);
 })
 
 app.get('/getCoins',async (req,res)=>{
-    const getCoins = await coin.findAll({ raw: true });
-    console.log(getCoins);
     console.log("Now showing Coins");
-    res.send("Here is Coins!");
+    const getCoins = await coin.findAll({ raw: true });
+    var coinData = [];
+    getCoins.map(coinSet=>{
+        let dataSet = {
+            id:coinSet.id,
+            name:coinSet.name,
+            amount:coinSet.amount,
+            price:coinSet.price
+        }
+        coinData.push(dataSet);
+    })
+    console.log(coinData);
+    res.send(coinData);
 })
 
 app.post('/newCoin',async (req,res)=>{
@@ -161,7 +181,8 @@ app.post('/newCoin',async (req,res)=>{
     const totalEval = amount*price;
     console.log(coinName,typeOrder,amount,price);
     if(await coin.findOne({where:{name:coinName}})){
-        updateDetails(coinName,typeOrder,price,amount);
+        const getMessage = await updateDetails(coinName,typeOrder,price,amount);
+        res.send(getMessage);
     }
     else if(typeOrder=='Sell'){
         res.send('Cannot make a sell transaction since no such coins exists in the db');
