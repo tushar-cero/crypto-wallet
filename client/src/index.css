@@ -168,7 +168,7 @@ a {
 .secondary-btn {
 	color: var(--primary-color-hover);
 	background-color: var(--white-color);
-	border: var(--white-color) 1px solid;
+	border: var(--primary-color-hover) 2px solid;
 	border-radius: 5px;
 }
 .secondary-btn:hover {
@@ -179,7 +179,7 @@ a {
 .tertiary-btn{
 	border-radius: 50%;
 	background-color: transparent;
-	color: var(--secondary-color);
+	color: var(--white-color);
 	font-size: 24px;
 }
 .google-btn {
@@ -533,9 +533,6 @@ header .header-flex .menu button{
 	width: 70px;
 	border: #000 1px dashed;
 }
-#Portfolio .portfolio-list .list .list-item .list-item-grid .name {
-	padding-left: 36px;
-}
 
 #Portfolio .add-transaction {
 	position: fixed;
@@ -563,8 +560,14 @@ header .header-flex .menu button{
 
 
 
-#Add-Transaction {
+
+.showAddTransaction {
 	display: block;
+}
+.hideAddTransaction {
+	display: none;
+}
+#Add-Transaction {
 	transition: 0.35s linear;
 	position: fixed;
 	top: 0;
@@ -580,25 +583,66 @@ header .header-flex .menu button{
 	height: 100%;
 	width: 100%;
 }
-#Add-Transaction .showAddTransaction {
-	display: block;
-}
-#Add-Transaction .hideAddTransaction {
-	display: none;
-}
 #Add-Transaction .card {
 	background-color: var(--white-color);
 	color: var(--mat-black-color);
 	padding: 16px;
-}
-#Add-Transaction .card .heading{
-	display: flex;
-	justify-items: space-between;
-	align-items: center;
-	width: 100%;
+	min-width: 275px;
+	height: auto;
+	border-radius: 15px;
 }
 #Add-Transaction .card .close-btn {
 	text-align: right;
+}
+#Add-Transaction .card .heading{
+	font-size: 12px;
+	text-transform: uppercase;
+	color: var(--grey-text-color);
+}
+#Add-Transaction .card  form div {
+	padding: 8px 0;
+}
+#Add-Transaction .card  form div .input-box {
+	border: var(--border-color) 1px solid;
+	border-radius: 5px;
+	outline: var(--primary-color);
+}
+#Add-Transaction .card  form div .input-box input {
+	padding: 8px 12px;
+	font-size: 16px;
+	width: 100%;
+}
+#Add-Transaction .card  form div label {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--grey-text-color);
+	position: relative;
+	top: 8px;
+	left: 8px;
+	background-color: var(--white-color);
+	padding: 4px;
+}
+#Add-Transaction .card  form .date {
+	padding: 16px 0;
+}
+#Add-Transaction .card  form .date .today {
+	font-size: 12px;
+	font-weight: 500;
+}
+#Add-Transaction .card  form .date .today input[type="checkbox"] {
+	background: transparent;
+	border: var(--primary-color) 1px solid;
+}
+#Add-Transaction .card  form .date .date-input-box {
+	margin: 10px;
+}
+#Add-Transaction .card  form .buttons {
+	width: 100%;
+	text-align: center;
+}
+#Add-Transaction .card  form .buttons button {
+	margin: 0 8px;
+	width: 100px;
 }
 
 

@@ -1,111 +1,91 @@
-// import React, {useState, useEffect} from 'react';
-// import axios from 'axios';
+import React, {useState} from 'react';
+import axios from 'axios';
+
+
+const closeAddTransaction = () => {
+    const element = document.getElementById('Add-Transaction');
+    element.className = 'hideAddTransaction';
+}
+const openAddTransaction = () => {
+    const element = document.getElementById('Add-Transaction');
+    element.className = 'showAddTransaction';
+}
 
 const Portfolio = () => {
 
-    // const [totalPrice, settotalPrice] = useState(0);
-    // const [nameOfCLass, setnameOfCLass] = useState('hideAddTransaction');
+    const [coinValue, setcoinValue] = useState('');
+    const [assetValue, setassetValue] = useState('');
+    const [buyingPriceValue, setbuyingPriceValue] = useState('');
+    const [dateValue, setdateValue] = useState('');
 
-    // useEffect(() => {
-    //     axios()
-    //     .then(()=>{
-    //         settotalPrice(1000);
-    //     })
-    // }, []);
+    const [cryptoCurrencies, setcryptoCurrencies] = useState(null);
 
-    /* const coinBD = [
-        {
-            name: "BTC",
-            fullName: "Bitcoin",
-            url: '' 
-        },
-        {
-            name: "BTC",
-            fullName: "Bitcoin",
-            url: '' 
-        },
-        {
-            name: "BTC",
-            fullName: "Bitcoin",
-            url: '' 
-        },
-        {
-            name: "BTC",
-            fullName: "Bitcoin",
-            url: '' 
-        },
-        {
-            name: "BTC",
-            fullName: "Bitcoin",
-            url: '' 
-        },
-        {
-            name: "BTC",
-            fullName: "Bitcoin",
-            url: '' 
-        },
-        {
-            name: "BTC",
-            fullName: "Bitcoin",
-            url: '' 
-        },
-        {
-            name: "BTC",
-            fullName: "Bitcoin",
-            url: '' 
-        },
-        {
-            name: "BTC",
-            fullName: "Bitcoin",
-            url: '' 
-        },
-        {
-            name: "BTC",
-            fullName: "Bitcoin",
-            url: '' 
-        },
-    ]; */
+    // --------------- POSTING DATA ---------------
+
+    const addTransactionData = {
+        coin:  coinValue,
+        assetValue: assetValue,
+        buyingPrice: buyingPriceValue,
+        bought: true,
+        date: dateValue
+    };
+
+    const handleSubmitForm = (boughtValue) => {
+        addTransactionData.bought = boughtValue;
+        axios.post('', addTransactionData)
+        .then(()=>{
+            console.log(addTransactionData);
+            console.log("Data Posted Successfully");
+        })
+    }
+
+    // --------------- FTECHING CRYPTO DATA ---------------
+
+    axios.get('https://fcsapi.com/api-v3/crypto/profile?symbol=BTC/USD,ETH/USD,XRP/USD&access_key=API_KEY')
+    .then((response)=>{
+        setcryptoCurrencies(response);
+        console.log(cryptoCurrencies)
+    });
 
     return (
         <article id="Portfolio">
-            <section id="Add-Transaction" className="showAddTransaction">
+            <section id="Add-Transaction" className="hideAddTransaction">
                 <div className="flex">
                     <div className="card">
                         <div className="close-btn">
-                            <i className="fa fa-times"></i>
+                            <button onClick={closeAddTransaction} className="btn secondary-btn"><i className="fa fa-times"></i></button>
                         </div>
                         <div className="heading">
                             <h1>Create New Transaction</h1>
                         </div>
-                        <form action="">
+                        <form>
                             <div className="search-box">
                                 <label>Crypto Coin</label>
                                 <div className="input-box">
-                                    <input type="text"/>
-                                    <i className="fa fa-search"></i>
+                                    <input type="text" value={coinValue} onChange={(e)=>setcoinValue(e.target.value)}/>
                                 </div>
                             </div>
                             <div>
                                 <label>Asset Value</label>
                                 <div className="input-box">
-                                    <input type="text"/>
+                                    <input type="text" value={assetValue} onChange={(e)=>setassetValue(e.target.value)}/>
                                 </div>
                             </div>
                             <div>
                                 <label>Buying Price</label>
                                 <div className="input-box">
-                                    <input type="text"/>
+                                    <input type="text" value={buyingPriceValue} onChange={(e)=>setbuyingPriceValue(e.target.value)}/>
                                 </div>
                             </div>
                             <div className="date">
-                                <input type="checkbox" name="" id="Today-Checkbox" value="Today"/>
-                                <div className="input-box">
-                                    <input type="date" name="date"/>
-                                </div>
+                                <p>Select Date of Purchase- </p>
+                                <span className="date-input-box">
+                                    <input type="date" name="date" id="Date-Selected"  value={dateValue} onChange={(e)=>setdateValue(e.target.value)}/>
+                                </span>
                             </div>
                             <div className="buttons">
-                                <button className="btn primary-btn">BOUGHT</button>
-                                <button className="btn secondary-btn">SOLD</button>
+                                <button onClick={()=>handleSubmitForm(true)} className="btn primary-btn">BOUGHT</button>
+                                <button onClick={()=>handleSubmitForm(false)} className="btn secondary-btn">SOLD</button>
                             </div>
                         </form>
                     </div>
@@ -122,86 +102,67 @@ const Portfolio = () => {
                     <ul className="list">
                         <li className="list-item">
                             <div className="list-item-grid">
-                                <div className="flex">
-                                    <span className="logo">
-                                        <img src="" alt="Logo"/>
-                                    </span>
-                                    <span className="name">BTC</span>
-                                </div>
+                                <div>BTC</div>
                                 <div className="current-denominations">0.004537</div>
+                                <div>100</div>
                             </div>
                         </li>
                         <li className="list-item">
                             <div className="list-item-grid">
-                                <div className="flex">
-                                    <span className="logo">
-                                        <img src="" alt="Logo"/>
-                                    </span>
-                                    <span className="name">BTC</span>
-                                </div>
+                                <div>BTC</div>
                                 <div className="current-denominations">0.004537</div>
+                                <div>100</div>
                             </div>
                         </li>
                         <li className="list-item">
                             <div className="list-item-grid">
-                                <div className="flex">
-                                    <span className="logo">
-                                        <img src="" alt="Logo"/>
-                                    </span>
-                                    <span className="name">BTC</span>
-                                </div>
+                                <div>BTC</div>
                                 <div className="current-denominations">0.004537</div>
+                                <div>100</div>
                             </div>
                         </li>
                         <li className="list-item">
                             <div className="list-item-grid">
-                                <div className="flex">
-                                    <span className="logo">
-                                        <img src="" alt="Logo"/>
-                                    </span>
-                                    <span className="name">BTC</span>
-                                </div>
+                                <div>BTC</div>
                                 <div className="current-denominations">0.004537</div>
+                                <div>100</div>
                             </div>
                         </li>
                         <li className="list-item">
                             <div className="list-item-grid">
-                                <div className="flex">
-                                    <span className="logo">
-                                        <img src="" alt="Logo"/>
-                                    </span>
-                                    <span className="name">BTC</span>
-                                </div>
+                                <div>BTC</div>
                                 <div className="current-denominations">0.004537</div>
+                                <div>100</div>
                             </div>
                         </li>
                         <li className="list-item">
                             <div className="list-item-grid">
-                                <div className="flex">
-                                    <span className="logo">
-                                        <img src="" alt="Logo"/>
-                                    </span>
-                                    <span className="name">BTC</span>
-                                </div>
+                                <div>BTC</div>
                                 <div className="current-denominations">0.004537</div>
+                                <div>100</div>
                             </div>
                         </li>
                         <li className="list-item">
                             <div className="list-item-grid">
-                                <div className="flex">
-                                    <span className="logo">
-                                        <img src="" alt="Logo"/>
-                                    </span>
-                                    <span className="name">BTC</span>
-                                </div>
+                                <div>BTC</div>
                                 <div className="current-denominations">0.004537</div>
+                                <div>100</div>
+                            </div>
+                        </li>
+                        <li className="list-item">
+                            <div className="list-item-grid">
+                                <div>BTC</div>
+                                <div className="current-denominations">0.004537</div>
+                                <div>100</div>
                             </div>
                         </li>
                     </ul>
                 </section>
                 <section className="add-transaction">
                     <div className="flex">
+                        <button onClick={openAddTransaction} className="btn tertiary-btn">
                         <i className="fa fa-plus"></i>
+                        </button>
                     </div>
                 </section>
             </div>
