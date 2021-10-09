@@ -105,8 +105,8 @@ const recordHistory = (Name,amount,Ordertype,price) =>{
 const updateDetails = async (name,orderType,price,amount)=>{
     const currentCoin = await coin.findOne({where:{name:name}});
     if(orderType=='buy'){
-        const newAmount= currentCoin.amount+amount;
-        const newPrice = currentCoin.price+amount*price;
+        const newAmount= parseInt(currentCoin.amount)+parseInt(amount);
+        const newPrice = parseInt(currentCoin.price)+parseInt(amount)*parseInt(price);
         await coin.update({amount:newAmount,price:newPrice},{
             where:{
                 name:name
@@ -115,7 +115,7 @@ const updateDetails = async (name,orderType,price,amount)=>{
     }
     else{
         if(amount>currentCoin.amount){
-            res.send('You don \'t hold these many coins kiddo')
+            res.send('You don\'t hold these many coins kiddo')
         }
         const newAmount= currentCoin.amount-amount;
         const newPrice = currentCoin.price-amount*price;
@@ -135,21 +135,20 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/history',async (req,res)=>{
-    const getHistory = await history.findAll();
-    console.log(getHistory);
     console.log("Showing history now!");
+    const getHistory = await history.findAll({ raw: true });
+    console.log(getHistory);
     res.send("Here is History!");
 })
 
 app.get('/getCoins',async (req,res)=>{
-    const getCoins = await coin.findAll();
+    const getCoins = await coin.findAll({ raw: true });
     console.log(getCoins);
     console.log("Now showing Coins");
     res.send("Here is Coins!");
 })
 
 app.post('/newCoin',async (req,res)=>{
-    console.log(coinName,typeOrder,amount,price);
     //Name of the coin that was bought or sold
     const coinName = req.body.name;
     //If it was Buy or Sell
@@ -160,12 +159,14 @@ app.post('/newCoin',async (req,res)=>{
     const price = req.body.price;
     //TOTAL EVALUATION
     const totalEval = amount*price;
+    console.log(coinName,typeOrder,amount,price);
     if(await coin.findOne({where:{name:coinName}})){
-        updateDetails(coinName,)
+        updateDetails(coinName,typeOrder,price,amount);
     }
     else if(typeOrder=='Sell'){
         res.send('Cannot make a sell transaction since no such coins exists in the db');
     }
+    else{
     coin.sync({
         force:false
     })
@@ -175,7 +176,7 @@ app.post('/newCoin',async (req,res)=>{
                 name:coinName,
                 orderType:typeOrder,
                 amount:amount,
-                price:price
+                price:totalEval
             }
         ])
     })
@@ -184,6 +185,7 @@ app.post('/newCoin',async (req,res)=>{
     })
     recordHistory(coinName,amount,typeOrder,price);
     res.send("Successfully Added Coin!");
+}
 })
 
 app.delete('/deleteCoin',async (req,res)=>{
