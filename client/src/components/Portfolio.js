@@ -71,6 +71,12 @@ const Portfolio = () => {
             <section id="Add-Transaction" className="showAddTransaction">
                 <div className="flex">
                     <div className="card">
+                        <div className="close-btn">
+                            <i className="fa fa-times"></i>
+                        </div>
+                        <div className="heading">
+                            <h1>Create New Transaction</h1>
+                        </div>
                         <form action="">
                             <div className="search-box">
                                 <label>Crypto Coin</label>

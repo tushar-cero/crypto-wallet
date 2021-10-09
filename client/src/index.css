@@ -591,6 +591,15 @@ header .header-flex .menu button{
 	color: var(--mat-black-color);
 	padding: 16px;
 }
+#Add-Transaction .card .heading{
+	display: flex;
+	justify-items: space-between;
+	align-items: center;
+	width: 100%;
+}
+#Add-Transaction .card .close-btn {
+	text-align: right;
+}
 
 
 
