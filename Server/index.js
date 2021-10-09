@@ -54,6 +54,9 @@ const coin = sequelize.define("coin", {
     change:{
         type:Sequelize.INTEGER,
         default:0
+    },
+    price:{
+        type:Sequelize.DECIMAL
     }
 });
 
@@ -121,6 +124,8 @@ app.post('/newCoin',(req,res)=>{
     const typeOrder = req.body.ordertype;
     //Amount of coins
     const amount = req.body.amount;
+    //Price at which bought or sold
+    const price = req.body.price
     console.log(coinName,typeOrder,amount);
     coin.sync({
         force:false
@@ -130,7 +135,8 @@ app.post('/newCoin',(req,res)=>{
             {
                 name:coinName,
                 orderType:typeOrder,
-                amount:amount
+                amount:amount,
+                price:price
             }
         ])
     })
@@ -141,6 +147,17 @@ app.post('/newCoin',(req,res)=>{
     res.send("Successfully Added Coin!");
 })
 
+app.delete('/deleteCoin',async (req,res)=>{
+    const coinName = req.body.name;
+    if(await coin.findOne({ where:{name:coinName}})){
+        await coin.destroy({
+            where:{
+                name:coinName
+            }
+        })  
+        res.send(`Successfull Deletion of coin`);
+    }
+})
 
 //STARTING THE SERVER
 app.listen(PORT,HOST,()=>{
