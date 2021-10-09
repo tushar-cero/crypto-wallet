@@ -1,6 +1,8 @@
 import React from 'react';
 import LogoImage from '../assets/images/logo.png';
 
+const handleScroll = () => window.scrollTo(0, 0);
+
 const Footer = () => {
     return (
         <footer>
@@ -10,9 +12,9 @@ const Footer = () => {
                         <img src={LogoImage} alt=""/>
                     </div>
                     <div className="move-up">
-                        <a href="#Landing">
+                        <button onClick={handleScroll} className="btn tertiary-btn">
                             <i className="fa fa-arrow-up" aria-hidden="true"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
                 <nav>

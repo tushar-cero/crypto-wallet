@@ -33,7 +33,7 @@ function App() {
                     <Error></Error>
                 </Route>
                 <Route component={Error}/> */}
-                <Route path="/" component={Home}/>
+                <Route exact path="/" component={Home}/>
                 <Route exact path="/home" component={Home}/>
                 <Route exact path="/wallet" component={Wallet}/>
                 <Route exact path="/history" component={History}/>

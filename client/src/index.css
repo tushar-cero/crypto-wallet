@@ -19,6 +19,7 @@
 }
 
 html {
+	scroll-behavior: smooth;
 	-webkit-font-smoothing: antialiased;
 	overflow-y: scroll;
 }
@@ -62,6 +63,9 @@ a {
     --secondary-background-color: #F2F7FF;
     
 	--text-color-danger: #d60000;
+	--text-color-danger-hover: rgba(214, 0, 0, 0.2);
+	--success-color: rgb(0, 199, 0);
+	--success-color-hover: rgba(0, 199, 0, 0.2);
 	--google-red-color: rgb(219, 68, 55);
 	--google-red-color-opacity: rgba(219, 69, 55, 0.4);
 	
@@ -72,6 +76,8 @@ a {
     --white-color: #fff;
     --black-color: #000;
 	--mat-black-color: #171717;
+	--background-opacity: rgba(0, 0, 0, 0.75);
+	--grey-text-color: rgb(120, 120, 150);
 }
 
 
@@ -169,6 +175,12 @@ a {
 	color: var(--white-color);
 	background-color: var(--primary-color-hover);
 	transition: 0.35s ease-in-out;
+}
+.tertiary-btn{
+	border-radius: 50%;
+	background-color: transparent;
+	color: var(--secondary-color);
+	font-size: 24px;
 }
 .google-btn {
 	color: var(--white-color);
@@ -317,7 +329,7 @@ header .header-flex .menu button{
 
 
 
-/* Menu:OpenedState Styling */
+/* Menu : OpenedState Styling */
 
 
 
@@ -407,6 +419,220 @@ header .header-flex .menu button{
 		justify-content: center;
 		align-items: center;
 	}
+}
+
+
+
+/* About */
+
+
+
+#About {
+	padding: 24px 0;
+}
+#About .about-grid {
+	display: block;
+}
+#About .about-grid .section .text h1 {
+	font-size: 24px;
+	font-weight: 900;
+	color: var(--grey-text-color);
+	padding: 24px 0;
+}
+#About .about-grid .section .illustration {
+	height: 300px;
+	width: auto;
+}
+#About .about-grid .section .illustration-1 {
+	background-image: url('./assets/images/illustration-1.png');
+}
+#About .about-grid .section .illustration-2 {
+	background-image: url('./assets/images/illustration-2.png');
+}
+#About .about-grid .section .illustration-3 {
+	background-image: url('./assets/images/illustration-3.png');
+}
+#About .about-grid .section .illustration-1,
+#About .about-grid .section .illustration-2,
+#About .about-grid .section .illustration-3{
+	height: 300px;
+	width: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+@media(min-width: 1000px){
+	
+	#About .about-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		justify-content: center;
+		align-items: start;
+		width: 100%;
+	}
+}
+
+
+
+/* Portfolio */
+
+
+
+#Portfolio {
+	padding: 24px 0;
+	position: relative;
+}
+#Portfolio .portfolio-value-card {
+	display: block;
+	height: 200px;
+	color: var(--white-color);
+	background-color: var(--primary-color);
+	border-radius: 5px;
+}
+#Portfolio .portfolio-value-card .flex {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+#Portfolio .portfolio-value-card .flex p {
+	font-size: 24px;
+	font-weight: 900;
+	text-align: center;
+}
+
+#Portfolio .portfolio-list h1 {
+	color: var(--grey-text-color);
+	padding: 24px 8px;
+	font-size: 16px;
+	font-weight: 700;
+}
+#Portfolio .portfolio-list .list .list-item {
+	height: 60px;
+	width: 100%;
+	padding: 8px;
+	margin: 16px 0;
+	font-size: 16px;
+	font-weight: 600;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+#Portfolio .portfolio-list .list .list-item .list-item-grid {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+#Portfolio .portfolio-list .list .list-item .list-item-grid .logo,
+#Portfolio .portfolio-list .list .list-item .list-item-grid .logo img {
+	height: 70px;
+	width: 70px;
+	border: #000 1px dashed;
+}
+#Portfolio .portfolio-list .list .list-item .list-item-grid .name {
+	padding-left: 36px;
+}
+
+#Portfolio .add-transaction {
+	position: fixed;
+	bottom: 16px;
+	right: 16px;
+
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	background-color: var(--primary-color);
+	color: var(--white-color);
+	font-size: 24px;
+}
+#Portfolio .add-transaction .flex {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+
+
+
+/* Add Transaction */
+
+
+
+#Add-Transaction {
+	display: block;
+	transition: 0.35s linear;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	background-color: var(--background-opacity);
+}
+#Add-Transaction .flex {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+#Add-Transaction .showAddTransaction {
+	display: block;
+}
+#Add-Transaction .hideAddTransaction {
+	display: none;
+}
+#Add-Transaction .card {
+	background-color: var(--white-color);
+	color: var(--mat-black-color);
+	padding: 16px;
+}
+
+
+
+/* History */
+
+
+
+#History {
+	padding: 50px 0;
+}
+#History h1 {
+	color: var(--grey-text-color);
+	font-size: 16px;
+	font-weight: 600;
+}
+#History ul li {
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+	margin: 16px 0;
+	padding: 8px;
+	border-radius: 5px;
+}
+#History ul li .upper-tier {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+#History ul li .upper-tier .name {
+	padding-left: 32px;
+}
+#History ul li .upper-tier .delete-button {
+	font-size: 24px;
+	color: var(--mat-black-color);
+}
+
+#History .lower-tier {
+	padding: 16px;
+}
+#History .lower-tier p {
+	margin: 4px 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--grey-text-color);
 }
 
 
