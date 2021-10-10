@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Fragment } from 'react/cjs/react.production.min';
 
@@ -9,18 +9,23 @@ const History = () => {
 
     // --------------- FETCHING HISTORY DATA ---------------
 
-    const [historyData, setHistoryData] = useState('');
+    const [historyData, setHistoryData] = useState(null);
 
     useEffect(() => {
-        axios.get('')
-        .then((response)=>{
-            setHistoryData(response);
-            console.log(historyData)
+        const userID = localStorage.getItem('userid');
+        axios.get('http://localhost:5000/history', {
+            headers: {
+                'userid': userID
+            }
         })
-        .catch((error)=> {
-            console.log(error);
-        });
-    }, [historyData]);
+            .then((response) => {
+                setHistoryData(response["data"]);
+               
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
 
     return (
@@ -28,25 +33,27 @@ const History = () => {
             <Header></Header>
 
             <article id="History">
-                <div class="container">
+                <div className="container">
                     <h1>HISTORY</h1>
-                    <ul class="history-list">
-                        <li class="history-item">
-                            <div class="upper-tier">
-                                <div>Buy BTC</div>
-                                <div class="delete-button">
-                                    <button class="btn tertiary-btn">
-                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                    </button>
+                    <ul className="history-list">
+                        {(historyData === 'New User!' || historyData === null) ? (
+                            <h1>Nothing here. Please add a Transaction to get history</h1>
+                        ) : historyData.map((dataSet, index) => (
+                            <li className="history-item" key={index}>
+                                <div className="upper-tier">
+                                    <div> {dataSet.orderType} {dataSet.name}</div>
+                                    <div className="delete-button">
+                                        <button className="btn tertiary-btn" style={{color:'blue'}}> 
+                                            <i className="fa fa-trash-o" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="lower-tier">
-                                <p class="date-and-time">16/06/2021, 21:41</p>
-                                <p>Asset Purchase Value - 0.00003176</p>
-                                <p>Asset Purchase Amount - ₹ 96.52</p>
-                                <p>Asset Purchase Price - ₹ 32,45,982.36</p>
-                            </div>
-                        </li>
+                                <div className="lower-tier">
+                                    <p>Asset Purchase Value - {dataSet.amount}</p>
+                                    <p>Asset Purchase Amount - {dataSet.price}</p>
+                                </div>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </article>
