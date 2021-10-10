@@ -47,6 +47,7 @@ const Login = () => {
             apiKey: process.env.REACT_APP_SAWO_API_KEY,
             // Add a callback here to handle the payload sent by sdk
             onSuccess: payload => {
+                
                 console.log(payload);
             },
         }
