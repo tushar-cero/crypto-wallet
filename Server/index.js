@@ -4,13 +4,13 @@ const app = express();
 const Sequelize = require("sequelize-cockroachdb");
 const fs = require('fs');
 const dotenv = require('dotenv');
-
+const cors = require('cors');
 
 //FILE CONFIGS
 dotenv.config();
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
-
+app.use(cors());
 const PORT = 5000;
 const HOST = 'localhost';
 
@@ -183,7 +183,9 @@ app.get('/history', async (req, res) => {
 app.get('/getCoins', async (req, res) => {
     console.log("Now showing Coins");
     const coin = getCoinDB(req.headers.userid);
-    const getCoins = await coin.findAll({ raw: true });
+    var getCoins = [];
+    try {
+    getCoins = await coin.findAll({ raw: true });
     var coinData = [];
     getCoins.map(coinSet => {
         let dataSet = {
@@ -196,6 +198,10 @@ app.get('/getCoins', async (req, res) => {
     })
     console.log(coinData);
     res.send(coinData);
+    } catch (error) {
+        res.send('New User!')
+    }
+   
 })
 
 //ROUTE TO RECORD NEW TRANSACTIONS

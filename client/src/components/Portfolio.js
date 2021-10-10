@@ -18,21 +18,20 @@ const Portfolio = () => {
     const [buyingPriceValue, setbuyingPriceValue] = useState('');
     const [dateValue, setdateValue] = useState('');
 
-    const [portfolioData, setPortfolioData] = useState(null);
+    const [portfolioData, setPortfolioData] = useState([]);
 
     // --------------- POSTING DATA ---------------
 
     const addTransactionData = {
-        coin:  coinValue,
-        assetValue: assetValue,
-        buyingPrice: buyingPriceValue,
-        bought: "Bought",
-        date: dateValue
+        name:  coinValue,
+        amount: assetValue,
+        price: buyingPriceValue,
+        orderType: "buy",
     };
 
     const handleSubmitForm = (boughtValue) => {
-        addTransactionData.bought = (boughtValue)?"Bought":"Sell";
-        axios.post('', addTransactionData)
+        addTransactionData.orderType = (boughtValue)?"buy":"Sell";
+        axios.post('http://localhost:5000/newCoin', addTransactionData)
         .then(()=>{
             console.log(addTransactionData);
             console.log("Data Posted Successfully");
@@ -42,7 +41,12 @@ const Portfolio = () => {
     // --------------- FETCHING PORTFOLIO DATA ---------------
 
     useEffect(() => {
-        axios.get('')
+        const userID = localStorage.getItem ('userid');
+        axios.get('http://localhost:5000/getCoins',{
+            headers:{
+                userid:userID
+            }
+        })
         .then((response)=>{
             setPortfolioData(response);
             console.log(portfolioData)
@@ -105,62 +109,16 @@ const Portfolio = () => {
                 <section className="portfolio-list">
                     <h1>MY PORTFOLIO</h1>
                     <ul className="list">
-                        <li className="list-item">
+                        {portfolioData && portfolioData.map((dataSet)=>{
+                            <li className="list-item">
                             <div className="list-item-grid">
-                                <div>{portfolioData.name}</div>
-                                <div className="current-denominations">{portfolioData.amount}</div>
-                                <div>{portfolioData.price}</div>
+                                <div>{dataSet.name}</div>
+                                <div className="current-denominations">{dataSet.amount}</div>
+                                <div>{dataSet.price}</div>
                             </div>
                         </li>
-                        <li className="list-item">
-                            <div className="list-item-grid">
-                                <div>BTC</div>
-                                <div className="current-denominations">0.004537</div>
-                                <div>100</div>
-                            </div>
-                        </li>
-                        <li className="list-item">
-                            <div className="list-item-grid">
-                                <div>BTC</div>
-                                <div className="current-denominations">0.004537</div>
-                                <div>100</div>
-                            </div>
-                        </li>
-                        <li className="list-item">
-                            <div className="list-item-grid">
-                                <div>BTC</div>
-                                <div className="current-denominations">0.004537</div>
-                                <div>100</div>
-                            </div>
-                        </li>
-                        <li className="list-item">
-                            <div className="list-item-grid">
-                                <div>BTC</div>
-                                <div className="current-denominations">0.004537</div>
-                                <div>100</div>
-                            </div>
-                        </li>
-                        <li className="list-item">
-                            <div className="list-item-grid">
-                                <div>BTC</div>
-                                <div className="current-denominations">0.004537</div>
-                                <div>100</div>
-                            </div>
-                        </li>
-                        <li className="list-item">
-                            <div className="list-item-grid">
-                                <div>BTC</div>
-                                <div className="current-denominations">0.004537</div>
-                                <div>100</div>
-                            </div>
-                        </li>
-                        <li className="list-item">
-                            <div className="list-item-grid">
-                                <div>BTC</div>
-                                <div className="current-denominations">0.004537</div>
-                                <div>100</div>
-                            </div>
-                        </li>
+                        })}
+                        
                     </ul>
                 </section>
                 <section className="add-transaction">
