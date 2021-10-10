@@ -18,6 +18,9 @@ const Portfolio = () => {
     const [buyingPriceValue, setbuyingPriceValue] = useState('');
 
     const [portfolioData, setPortfolioData] = useState(null);
+    const [totalPortfolioValue, settotalPortfolioValue] = useState(0);
+    var totalValue =0;
+
 
     // --------------- POSTING DATA ---------------
 
@@ -36,7 +39,7 @@ const Portfolio = () => {
                 'userid':userID
             }
         })
-        .then((res)=>{
+        .then(()=>{
             const userID = localStorage.getItem ('userid');
             axios.get('http://localhost:5000/getCoins',{
                 headers:{
@@ -61,12 +64,19 @@ const Portfolio = () => {
                 userid:userID
             }
         })
-        .then((response)=>{
+        .then(async (response)=>{
             setPortfolioData(response["data"]);
+            response["data"].forEach((eachValue)=>{
+                const temp = eachValue["price"];                
+                totalValue+=parseInt(temp);
+                console.log(totalValue);
+                settotalPortfolioValue(totalValue);
+            })
         })
         .catch((error)=> {
             console.log(error);
         });
+        
     }, []);
 
     return (
@@ -111,7 +121,7 @@ const Portfolio = () => {
             <div className="container">
                 <section className="portfolio-value-card">
                     <div className="flex">
-                        <p>My Portfolio is worth Rupees 1,00,000</p>
+                        <p>My Portfolio is worth ₹ {totalPortfolioValue}</p>
                     </div>
                 </section>
                 <section className="portfolio-list">
