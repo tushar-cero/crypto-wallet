@@ -57,11 +57,12 @@ const Login = () => {
             apiKey: process.env.REACT_APP_SAWO_API_KEY,
             // Add a callback here to handle the payload sent by sdk
             onSuccess: payload => {
-                setUserID(payload.user_id);
-                setJWT(payload.verification_token);
+                setUserID(payload['user_id']);
+                setJWT(payload['verification_token']);
                 console.log(payload);
-                console.log(userId);
-                console.log(JWT);
+                console.log(userId); //----yeh sab dekh lo zara
+                console.log(JWT); //----yeh sab dekh lo zara
+                handleClick();
             },
         }
         let sawo = new Sawo(config);

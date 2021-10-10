@@ -26,12 +26,12 @@ const Portfolio = () => {
         coin:  coinValue,
         assetValue: assetValue,
         buyingPrice: buyingPriceValue,
-        bought: true,
+        bought: "Bought",
         date: dateValue
     };
 
     const handleSubmitForm = (boughtValue) => {
-        addTransactionData.bought = boughtValue;
+        addTransactionData.bought = (boughtValue)?"Bought":"Sell";
         axios.post('', addTransactionData)
         .then(()=>{
             console.log(addTransactionData);
@@ -107,9 +107,9 @@ const Portfolio = () => {
                     <ul className="list">
                         <li className="list-item">
                             <div className="list-item-grid">
-                                <div>BTC</div>
-                                <div className="current-denominations">0.004537</div>
-                                <div>100</div>
+                                <div>{portfolioData.name}</div>
+                                <div className="current-denominations">{portfolioData.amount}</div>
+                                <div>{portfolioData.price}</div>
                             </div>
                         </li>
                         <li className="list-item">
