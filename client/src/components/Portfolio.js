@@ -37,19 +37,18 @@ const Portfolio = () => {
             }
         })
         .then((res)=>{
-              const userID = localStorage.getItem ('userid');
-        axios.get('http://localhost:5000/getCoins',{
-            headers:{
-                userid:userID
-            }
-        })
-        .then((response)=>{
-            setPortfolioData(response["data"]);
-        })
-        .catch((error)=> {
-            console.log(error);
-        });
-            console.log(addTransactionData);
+            const userID = localStorage.getItem ('userid');
+            axios.get('http://localhost:5000/getCoins',{
+                headers:{
+                    userid:userID
+                }
+            })
+            .then((response)=>{
+                setPortfolioData(response["data"]);
+            })
+            .catch((error)=> {
+                console.log(error);
+            });
         })
     }
 
@@ -63,9 +62,7 @@ const Portfolio = () => {
             }
         })
         .then((response)=>{
-            console.log(response);
             setPortfolioData(response["data"]);
-            console.log(portfolioData);
         })
         .catch((error)=> {
             console.log(error);
