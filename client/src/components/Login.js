@@ -31,12 +31,22 @@
 // }
  
 // export default Login;
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import {useHistory} from 'react-router-dom';
 import Sawo from 'sawo';
 import dotenv from 'dotenv';
 
 dotenv.config()
 const Login = () => {
+
+    const [userId, setUserID] = useState('');
+    const [JWT, setJWT] = useState('');
+    let history = useHistory();
+    
+    function handleClick() {
+        history.push("/wallet");
+    }
+
     useEffect(() => {
         var config = {
             // should be same as the id of the container created on 3rd step
@@ -47,18 +57,23 @@ const Login = () => {
             apiKey: process.env.REACT_APP_SAWO_API_KEY,
             // Add a callback here to handle the payload sent by sdk
             onSuccess: payload => {
-                
+                setUserID(payload.user_id);
+                setJWT(payload.verification_token);
                 console.log(payload);
+                console.log(userId);
+                console.log(JWT);
             },
         }
         let sawo = new Sawo(config);
         sawo.showForm();
-    }, [])
+    }, [JWT])
 
     return (
-        <>
-            <div id="sawo-container" style={{height:"300px", width:"400px"}}></div>
-        </>
+        <article className="Login">
+            <div className="container">
+                <div id="sawo-container" style={{height:"400px", width:"300px"}}></div>
+            </div>
+        </article>
     )
 }
 

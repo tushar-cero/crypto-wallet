@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
 
@@ -18,7 +18,7 @@ const Portfolio = () => {
     const [buyingPriceValue, setbuyingPriceValue] = useState('');
     const [dateValue, setdateValue] = useState('');
 
-    const [cryptoCurrencies, setcryptoCurrencies] = useState(null);
+    const [portfolioData, setPortfolioData] = useState(null);
 
     // --------------- POSTING DATA ---------------
 
@@ -39,13 +39,18 @@ const Portfolio = () => {
         })
     }
 
-    // --------------- FTECHING CRYPTO DATA ---------------
+    // --------------- FETCHING PORTFOLIO DATA ---------------
 
-    axios.get('https://fcsapi.com/api-v3/crypto/profile?symbol=BTC/USD,ETH/USD,XRP/USD&access_key=API_KEY')
-    .then((response)=>{
-        setcryptoCurrencies(response);
-        console.log(cryptoCurrencies)
-    });
+    useEffect(() => {
+        axios.get('')
+        .then((response)=>{
+            setPortfolioData(response);
+            console.log(portfolioData)
+        })
+        .catch((error)=> {
+            console.log(error);
+        });
+    }, [portfolioData]);
 
     return (
         <article id="Portfolio">

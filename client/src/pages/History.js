@@ -1,9 +1,28 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import { Fragment } from 'react/cjs/react.production.min';
 
 import Header from '../components/Header';
 
 const History = () => {
+
+
+    // --------------- FETCHING HISTORY DATA ---------------
+
+    const [historyData, setHistoryData] = useState('');
+
+    useEffect(() => {
+        axios.get('')
+        .then((response)=>{
+            setHistoryData(response);
+            console.log(historyData)
+        })
+        .catch((error)=> {
+            console.log(error);
+        });
+    }, [historyData]);
+
+
     return (
         <Fragment>
             <Header></Header>
@@ -28,87 +47,6 @@ const History = () => {
                                 <p>Asset Purchase Price - ₹ 32,45,982.36</p>
                             </div>
                         </li>
-                        <li class="history-item">
-                            <div class="upper-tier">
-                                <div>Buy BTC</div>
-                                <div class="delete-button">
-                                    <button class="btn tertiary-btn">
-                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="lower-tier">
-                                <p class="date-and-time">16/06/2021, 21:41</p>
-                                <p>Asset Purchase Value - 0.00003176</p>
-                                <p>Asset Purchase Amount - ₹ 96.52</p>
-                                <p>Asset Purchase Price - ₹ 32,45,982.36</p>
-                            </div>
-                        </li>
-                        <li class="history-item">
-                            <div class="upper-tier">
-                                <div>Buy BTC</div>
-                                <div class="delete-button">
-                                    <button class="btn tertiary-btn">
-                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="lower-tier">
-                                <p class="date-and-time">16/06/2021, 21:41</p>
-                                <p>Asset Purchase Value - 0.00003176</p>
-                                <p>Asset Purchase Amount - ₹ 96.52</p>
-                                <p>Asset Purchase Price - ₹ 32,45,982.36</p>
-                            </div>
-                        </li>
-                        <li class="history-item">
-                            <div class="upper-tier">
-                                <div>Buy BTC</div>
-                                <div class="delete-button">
-                                    <button class="btn tertiary-btn">
-                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="lower-tier">
-                                <p class="date-and-time">16/06/2021, 21:41</p>
-                                <p>Asset Purchase Value - 0.00003176</p>
-                                <p>Asset Purchase Amount - ₹ 96.52</p>
-                                <p>Asset Purchase Price - ₹ 32,45,982.36</p>
-                            </div>
-                        </li>
-                        <li class="history-item">
-                            <div class="upper-tier">
-                                <div>Buy BTC</div>
-                                <div class="delete-button">
-                                    <button class="btn tertiary-btn">
-                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="lower-tier">
-                                <p class="date-and-time">16/06/2021, 21:41</p>
-                                <p>Asset Purchase Value - 0.00003176</p>
-                                <p>Asset Purchase Amount - ₹ 96.52</p>
-                                <p>Asset Purchase Price - ₹ 32,45,982.36</p>
-                            </div>
-                        </li>
-                        <li class="history-item">
-                            <div class="upper-tier">
-                                <div>Buy BTC</div>
-                                <div class="delete-button">
-                                    <button class="btn tertiary-btn">
-                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="lower-tier">
-                                <p class="date-and-time">16/06/2021, 21:41</p>
-                                <p>Asset Purchase Value - 0.00003176</p>
-                                <p>Asset Purchase Amount - ₹ 96.52</p>
-                                <p>Asset Purchase Price - ₹ 32,45,982.36</p>
-                            </div>
-                        </li>
-                        
                     </ul>
                 </div>
             </article>
