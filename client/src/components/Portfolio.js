@@ -16,7 +16,6 @@ const Portfolio = () => {
     const [coinValue, setcoinValue] = useState('');
     const [assetValue, setassetValue] = useState('');
     const [buyingPriceValue, setbuyingPriceValue] = useState('');
-    const [dateValue, setdateValue] = useState('');
 
     const [portfolioData, setPortfolioData] = useState(null);
 
@@ -38,7 +37,6 @@ const Portfolio = () => {
             }
         })
         .then((res)=>{
-            console.log(res);
               const userID = localStorage.getItem ('userid');
         axios.get('http://localhost:5000/getCoins',{
             headers:{
@@ -47,13 +45,11 @@ const Portfolio = () => {
         })
         .then((response)=>{
             setPortfolioData(response["data"]);
-            console.log(portfolioData);
         })
         .catch((error)=> {
             console.log(error);
         });
             console.log(addTransactionData);
-            console.log("Data Posted Successfully");
         })
     }
 
@@ -106,12 +102,7 @@ const Portfolio = () => {
                                     <input type="text" value={buyingPriceValue} onChange={(e)=>setbuyingPriceValue(e.target.value)}/>
                                 </div>
                             </div>
-                            <div className="date">
-                                <p>Select Date of Purchase- </p>
-                                <span className="date-input-box">
-                                    <input type="date" name="date" id="Date-Selected"  value={dateValue} onChange={(e)=>setdateValue(e.target.value)}/>
-                                </span>
-                            </div>
+                            
                             <div className="buttons">
                                 <button onClick={()=>handleSubmitForm(true)} className="btn primary-btn">BOUGHT</button>
                                 <button onClick={()=>handleSubmitForm(false)} className="btn secondary-btn">SOLD</button>
@@ -132,7 +123,7 @@ const Portfolio = () => {
                         {(portfolioData === 'New User!' || portfolioData === null)?(
                                 <h1>Nothing here. Please add a Transaction</h1>
                             ):portfolioData.map((dataSet,index)=> (
-                                (dataSet.amount == '0') ? (<span key={index}></span>) :
+                                (dataSet.amount === 0) ? (<span key={index}></span>) :
                                 (<li className="list-item" key={index}>
                                     <div className="list-item-grid">
                                         <div>{dataSet.name}</div>
