@@ -124,6 +124,7 @@ const updateDetails = async (name, orderType, price, amount, userid) => {
     const coin = getCoinDB(userid);
     const currentCoin = await coin.findOne({ where: { name: name } });
     var message = 'Nothing happened';
+    console.log(message);
     if (orderType == 'buy') {
         console.log('Order type is Buy');
         const newAmount = parseInt(currentCoin.amount) + parseInt(amount);
@@ -166,26 +167,31 @@ app.get('/', (req, res) => {
 app.get('/history', async (req, res) => {
     const history = getHistory(req.headers.userid);
     var historyData = [];
+    try {
     const getHistoryData = await history.findAll({ raw: true });
     getHistoryData.map(coinSet => {
         let dataSet = {
             id: coinSet.id,
             name: coinSet.name,
             amount: coinSet.amount,
+            orderType:coinSet.orderType,
             price: coinSet.price
         }
         historyData.push(dataSet);
     })
-    res.send(historyData);
+    const arr = historyData.reverse();
+    res.send(arr);
+    } catch (error) {
+        res.send('New User!');
+    }
+    
 })
 
 //ROUTE TO GET ALL THE COINS FOR THE USERID
 app.get('/getCoins', async (req, res) => {
-    console.log("Now showing Coins");
     const coin = getCoinDB(req.headers.userid);
-    var getCoins = [];
     try {
-    getCoins = await coin.findAll({ raw: true });
+    const getCoins = await coin.findAll({ raw: true });
     var coinData = [];
     getCoins.map(coinSet => {
         let dataSet = {
@@ -207,6 +213,7 @@ app.get('/getCoins', async (req, res) => {
 //ROUTE TO RECORD NEW TRANSACTIONS
 
 app.post('/newCoin', async (req, res) => {
+    console.log('user id is');
     console.log(req.headers.userid);
     const coin = getCoinDB(req.headers.userid);
     //Name of the coin that was bought or sold

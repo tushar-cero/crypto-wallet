@@ -18,7 +18,7 @@ const Portfolio = () => {
     const [buyingPriceValue, setbuyingPriceValue] = useState('');
     const [dateValue, setdateValue] = useState('');
 
-    const [portfolioData, setPortfolioData] = useState([]);
+    const [portfolioData, setPortfolioData] = useState(null);
 
     // --------------- POSTING DATA ---------------
 
@@ -26,13 +26,32 @@ const Portfolio = () => {
         name:  coinValue,
         amount: assetValue,
         price: buyingPriceValue,
-        orderType: "buy",
+        ordertype: "buy",
     };
 
     const handleSubmitForm = (boughtValue) => {
-        addTransactionData.orderType = (boughtValue)?"buy":"Sell";
-        axios.post('http://localhost:5000/newCoin', addTransactionData)
-        .then(()=>{
+        const userID = localStorage.getItem ('userid');
+        addTransactionData.ordertype = (boughtValue)?"buy":"Sell";
+        axios.post('http://localhost:5000/newCoin', addTransactionData,{
+            headers:{
+                'userid':userID
+            }
+        })
+        .then((res)=>{
+            console.log(res);
+              const userID = localStorage.getItem ('userid');
+        axios.get('http://localhost:5000/getCoins',{
+            headers:{
+                userid:userID
+            }
+        })
+        .then((response)=>{
+            setPortfolioData(response["data"]);
+            console.log(portfolioData);
+        })
+        .catch((error)=> {
+            console.log(error);
+        });
             console.log(addTransactionData);
             console.log("Data Posted Successfully");
         })
@@ -48,13 +67,14 @@ const Portfolio = () => {
             }
         })
         .then((response)=>{
-            setPortfolioData(response);
-            console.log(portfolioData)
+            console.log(response);
+            setPortfolioData(response["data"]);
+            console.log(portfolioData);
         })
         .catch((error)=> {
             console.log(error);
         });
-    }, [portfolioData]);
+    }, []);
 
     return (
         <article id="Portfolio">
@@ -109,16 +129,18 @@ const Portfolio = () => {
                 <section className="portfolio-list">
                     <h1>MY PORTFOLIO</h1>
                     <ul className="list">
-                        {portfolioData && portfolioData.map((dataSet)=>{
-                            <li className="list-item">
-                            <div className="list-item-grid">
-                                <div>{dataSet.name}</div>
-                                <div className="current-denominations">{dataSet.amount}</div>
-                                <div>{dataSet.price}</div>
-                            </div>
-                        </li>
-                        })}
-                        
+                        {(portfolioData === 'New User!' || portfolioData === null)?(
+                                <h1>Nothing here. Please add a Transaction</h1>
+                            ):portfolioData.map((dataSet,index)=> (
+                                (dataSet.amount == '0') ? (<span key={index}></span>) :
+                                (<li className="list-item" key={index}>
+                                    <div className="list-item-grid">
+                                        <div>{dataSet.name}</div>
+                                        <div className="current-denominations">{dataSet.amount}</div>
+                                        <div>{dataSet.price}</div>
+                                    </div>
+                                </li>)
+                            ))}
                     </ul>
                 </section>
                 <section className="add-transaction">
