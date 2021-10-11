@@ -70,7 +70,10 @@ const Portfolio = () => {
                 const temp = eachValue["price"];                
                 totalValue+=parseInt(temp);
                 console.log(totalValue);
+                if(totalValue<0)
+                totalValue=0;
                 settotalPortfolioValue(totalValue);
+                
             })
         })
         .catch((error)=> {
