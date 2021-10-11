@@ -19,7 +19,7 @@ const Footer = () => {
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="https://api.whatsapp.com/send?phone=918318706545&text=&source=&data=&app_absent=">Help and Support</a></li>
+                        <li><a href="https://api.whatsapp.com/send?phone=9519422770&text=&source=&data=&app_absent=">Help and Support</a></li>
                     </ul>
                 </nav>
                 <div className="conclusion">
