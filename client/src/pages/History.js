@@ -13,7 +13,7 @@ const History = () => {
 
     useEffect(() => {
         const userID = localStorage.getItem('userid');
-        axios.get('http://localhost:5000/history', {
+        axios.get('https://nameless-forest-98423.herokuapp.com/history', {
             headers: {
                 'userid': userID
             }

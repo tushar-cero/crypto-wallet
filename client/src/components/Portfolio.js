@@ -34,14 +34,14 @@ const Portfolio = () => {
     const handleSubmitForm = (boughtValue) => {
         const userID = localStorage.getItem ('userid');
         addTransactionData.ordertype = (boughtValue)?"buy":"Sell";
-        axios.post('http://localhost:5000/newCoin', addTransactionData,{
+        axios.post('https://nameless-forest-98423.herokuapp.com/newCoin', addTransactionData,{
             headers:{
                 'userid':userID
             }
         })
         .then(()=>{
             const userID = localStorage.getItem ('userid');
-            axios.get('http://localhost:5000/getCoins',{
+            axios.get('https://nameless-forest-98423.herokuapp.com/getCoins',{
                 headers:{
                     userid:userID
                 }
@@ -59,7 +59,7 @@ const Portfolio = () => {
 
     useEffect(() => {
         const userID = localStorage.getItem ('userid');
-        axios.get('http://localhost:5000/getCoins',{
+        axios.get('https://nameless-forest-98423.herokuapp.com/getCoins',{
             headers:{
                 userid:userID
             }
